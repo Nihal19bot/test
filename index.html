@@ -27,6 +27,7 @@
             width: 100%;
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for navbar */
+            transition: top 0.3s; /* Transition for hiding/showing navbar */
         }
         .navbar a {
             color: white;
@@ -156,11 +157,12 @@
             background-color: #3498db; /* Blue footer background color */
             color: white;
             text-align: center;
-            padding: 0px 0;
+            padding: 10px 0;
             position: fixed;
-            bottom: 0;
+            bottom: -60px; /* Initially hide footer */
             width: 100%;
             z-index: 1000; /* Ensure footer is above content */
+            transition: bottom 0.3s; /* Transition for hiding/showing footer */
         }
         .popup {
             display: none; /* Hidden by default */
@@ -203,6 +205,13 @@
             margin-top: 10px;
             font-size: 14px;
             color: #555; /* Dark gray text color for terms */
+        }
+        /* Hide/show classes for navbar and footer */
+        .hide-navbar {
+            top: -60px; /* Move navbar up to hide it */
+        }
+        .show-footer {
+            bottom: 0; /* Move footer up to show it */
         }
     </style>
 </head>
@@ -289,7 +298,7 @@
             </a>
         </div>
         <div class="box" onclick="window.location.href='page3.html';">
-            <a href="page3.html">
+            <a href="ac.html">
                 <img src="ac.jpg" alt="please try again later">
                 <h2>AC Technician</h2>
                 <p>7 Days Free Guarantee</p>
@@ -340,9 +349,31 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Show popup when page loads
             showPopup();
+        });
 
-            // Close popup when overlay is clicked
-            document.querySelector('.overlay').addEventListener('click', closePopup);
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            const footer = document.querySelector('.footer');
+            const scrollY = window.scrollY;
+            const innerHeight = window.innerHeight;
+            const bodyHeight = document.body.scrollHeight;
+
+            // Only apply on mobile view
+            if (window.innerWidth <= 768) {
+                // Show navbar when at top
+                if (scrollY === 0) {
+                    navbar.style.top = '0';
+                } else {
+                    navbar.style.top = '-60px';
+                }
+
+                // Show footer when at bottom
+                if (scrollY + innerHeight >= bodyHeight) {
+                    footer.classList.add('show-footer');
+                } else {
+                    footer.classList.remove('show-footer');
+                }
+            }
         });
     </script>
 </body>
