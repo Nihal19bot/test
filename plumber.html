@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Booking Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1e90ff;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #003b75;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1c86ee;
+        }
+        .hamburger {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: block;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 100%;
+            height: 4px;
+            background-color: #333333;
+            margin: 6px 0;
+        }
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 999;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #f0f8ff;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            color: #1e90ff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hamburger" onclick="toggleNav()">
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+<div id="mySidebar" class="sidebar">
+    <a href="index.html">Home</a>
+    <a href="#">Contact Us</a>
+</div>
+
+<div class="container">
+    <h2>Service Booking Form</h2>
+    <h3>Plumber</h3>
+    <form>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required placeholder="1234567890">
+
+        <label for="service">Select Service</label>
+        <select id="service" name="service" required>
+            <option value="" disabled selected>Select</option>
+            <option value="service1">tap repair</option>
+            <option value="service2">drainage problem</option>
+            <option value="service2">damage pipeline repair</option>
+            <option value="service3">Other</option>
+        </select>
+
+        <label for="date">Preferred Date</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="timeslot">Preferred Time Slot</label>
+        <select id="timeslot" name="timeslot" required>
+            <option value="" disabled selected>Select</option>
+            <option value="12:00-02:00am">12:00-02:00am</option>
+            <option value="02:00-04:00am">02:00-04:00am</option>
+            <option value="04:00-06:00am">04:00-06:00am</option>
+            <option value="06:00-08:00am">06:00-08:00am</option>
+            <option value="08:00-10:00am">08:00-10:00am</option>
+            <option value="10:00-12:00am">10:00-12:00am</option>
+            <option value="12:00-02:00pm">12:00-02:00pm</option>
+            <option value="02:00-04:00pm">02:00-4:00pm</option>
+            <option value="04:00-06:00pm">04:00-6:00pm</option>
+            <option value="06:00-08:00pm">06:00-08:00pm</option>
+            <option value="08:00-10:00pm">08:00-10:00pm</option>
+            <option value="10:00-12:00pm">10:00-12:00pm</option>
+        </select>
+
+        <button type="submit">Book Now</button>
+    </form>
+</div>
+
+<script>
+    function toggleNav() {
+        var sidebar = document.getElementById("mySidebar");
+        if (sidebar.style.width === "250px") {
+            sidebar.style.width = "0";
+        } else {
+            sidebar.style.width = "250px";
+        }
+    }
+</script>
+
+</body>
+</html>

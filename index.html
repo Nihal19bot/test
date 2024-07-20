@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Website</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: #f0f5f9; /* Light background color */
+            color: #000000; /* Dark text color */
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3498db; /* Blue navbar background color */
+            color: white;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for navbar */
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            border-bottom: none; /* Remove underline */
+        }
+        .navbar .hamburger {
+            position: absolute;
+            right: 40px; /* Adjusted position */
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 1100; /* Ensure hamburger is above menu */
+        }
+        .navbar .hamburger div {
+            width: 100%;
+            height: 4px;
+            background-color: #ffffff;
+            margin: 6px 0;
+        }
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 999;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #f0f8ff;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            color: #1e90ff;
+        }
+        .navbar-menu.open {
+            width: 250px; /* Set width for sidebar */
+        }
+        .header {
+            background: #ecf0f1; /* Light gray header background */
+            color: #333;
+            padding: 100px 20px 20px;
+            text-align: center;
+            margin-top: 0px; /* Adjust for navbar height */
+        }
+        .boxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between; /* Space between boxes on desktop */
+            padding: 20px;
+            margin-top: 20px; /* Spacing below header */
+        }
+        .box {
+            margin: 10px;
+            text-align: center;
+            flex: 0 0 calc(33% - 20px); /* Adjusted width for desktop */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 200px; /* Decrease max-width of each service box */
+            background-color: #ffffff;
+            padding: 15px; /* Decreased padding */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .box:hover {
+            transform: translateY(-5px);
+        }
+        .box a {
+            text-decoration: none; /* Remove underline from box text */
+        }
+        .box img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px; /* Space between image and text */
+        }
+        .box h2 {
+            margin-top: 10px;
+            font-size: 1.3rem; /* Adjust font size */
+            color: #333; /* Black text color */
+        }
+        .box p {
+            margin: 0;
+            padding: 0 10px; /* Decreased padding for text */
+            color: rgb(0, 0, 0); /* RGB color for text */
+        }
+        @media (max-width: 768px) {
+            .navbar .hamburger {
+                display: block;
+                right: 40px; /* Adjusted position on mobile */
+            }
+            .sidebar {
+                width: 0; /* Ensure sidebar is closed by default on mobile */
+            }
+            .sidebar a {
+                font-size: 20px; /* Adjust font size for mobile */
+            }
+            .boxes {
+                display: grid; /* Change to grid layout */
+                grid-template-columns: 1fr 1fr; /* Two columns */
+                gap: 20px; /* Space between boxes */
+                padding: 20px;
+            }
+            .box {
+                width: 100%; /* Full width of grid cell */
+                max-width: none; /* Remove max-width constraint for mobile */
+                margin: 0; /* Remove margin for mobile */
+                padding: 0px; /* Adjusted padding for mobile */
+            }
+            .box img {
+                max-height: 150px; /* Adjusted image size for mobile */
+                margin-bottom: 10px; /* Space between image and text */
+            }
+        }
+        .footer {
+            background-color: #3498db; /* Blue footer background color */
+            color: white;
+            text-align: center;
+            padding: 0px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000; /* Ensure footer is above content */
+        }
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1001; /* Ensure it appears above other content */
+        }
+        .popup h2 {
+            margin-top: 0;
+        }
+        .popup button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .popup button:hover {
+            background-color: #2980b9;
+        }
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000; /* Ensure it appears below the popup */
+        }
+        .popup .terms-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555; /* Dark gray text color for terms */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <a href="electrician.png">Service Website</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebar">
+        <a href="#home">Home</a>
+        <a href="#account">Account</a>
+        <a href="#contact">Contact Us</a>
+    </div>
+
+    <!-- Popup Container -->
+    <div class="overlay"></div>
+    <div class="popup" id="popup">
+        <h2>Service Website</h2>
+        <p>If the issue is not resolved on time, you will receive up to 50% discount.</p>
+        <p>In every 3rd service/booking you will get up to 50% discount.</p>
+        <p class="terms-text">
+            <a href="terms.html" style="color: #3498db;">Terms and Conditions Apply</a>
+        </p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="header" id="home">
+        <h1>Welcome to Our Service Website</h1>
+        <p>We provide the best services for our clients with on-time guarantee.</p>
+    </div>
+
+    <div class="boxes">
+        <div class="box" onclick="window.location.href='page1.html';">
+            <a href="hotel.html">
+                <img src="hotel.jpg" alt="please try again later">
+                <h2>Hotel Booking</h2>
+                <p>Best Hotels Available</p>
+                <p>Open 24x7</p>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page1.html';">
+            <a href="restaurant.html">
+                <img src="restaurant.jpg" alt="please try again later">
+                <h2>Restaurant Booking</h2>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page1.html';">
+            <a href="car.html">
+                <img src="car.jpeg" alt="please try again later">
+                <h2>Car Booking</h2>
+                <p>All Cars Available</p>
+                <p>Best Deals Available</p>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page4.html';">
+            <a href="plumber.html">
+                <img src="plumber.jpeg" alt="please try again later">
+                <h2>Plumber</h2>
+                <p>No Leakage Guarantee</p>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page3.html';">
+            <a href="barber.html">
+                <img src="barber.jpeg" alt="please try again later">
+                <h2>Barber</h2>
+                <p>All hairstyle available for male/female</p>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page3.html';">
+            <a href="electricianpage.html">
+                <img src="electrician.png" alt="please try again later">
+                <h2>Electrician</h2>
+                <p>7 Days Free Guarantee</p>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page3.html';">
+            <a href="page3.html">
+                <img src="ac.jpg" alt="please try again later">
+                <h2>AC Technician</h2>
+                <p>7 Days Free Guarantee</p>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page4.html';">
+            <a href="cleaner.html">
+                <img src="cleaner.jpg" alt="please try again later">
+                <h2>Cleaner</h2>
+                <p>Water Tank cleaning</p>
+                <p>House/Hotel Cleaning</p>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page3.html';">
+            <a href="carpenter.html">
+                <img src="carpenter.jpeg" alt="please try again later">
+                <h2>Carpenter</h2>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Service Website. All Rights Reserved.</p>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function toggleMenu() {
+            var sidebar = document.getElementById("mySidebar");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "250px";
+            }
+        }
+
+        function closePopup() {
+            document.querySelector('.popup').style.display = 'none';
+            document.querySelector('.overlay').style.display = 'none';
+        }
+
+        function showPopup() {
+            document.querySelector('.popup').style.display = 'block';
+            document.querySelector('.overlay').style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show popup when page loads
+            showPopup();
+
+            // Close popup when overlay is clicked
+            document.querySelector('.overlay').addEventListener('click', closePopup);
+        });
+    </script>
+</body>
+</html>
