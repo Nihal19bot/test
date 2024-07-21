@@ -157,9 +157,9 @@
             background-color: #3498db; /* Blue footer background color */
             color: white;
             text-align: center;
-            padding: 10px 0;
+            padding: 0px 0;
             position: fixed;
-            bottom: -60px; /* Initially hide footer */
+            bottom: -80px; /* Initially hide footer */
             width: 100%;
             z-index: 1000; /* Ensure footer is above content */
             transition: bottom 0.3s; /* Transition for hiding/showing footer */
@@ -294,14 +294,14 @@
             <a href="electricianpage.html">
                 <img src="electrician.png" alt="please try again later">
                 <h2>Electrician</h2>
-                <p>7 Days Free Guarantee</p>
+                <p>Guaranteed Work</p>
             </a>
         </div>
         <div class="box" onclick="window.location.href='page3.html';">
             <a href="ac.html">
                 <img src="ac.jpg" alt="please try again later">
                 <h2>AC Technician</h2>
-                <p>7 Days Free Guarantee</p>
+                <p>Guaranteed Work</p>
             </a>
         </div>
         <div class="box" onclick="window.location.href='page4.html';">
@@ -359,7 +359,7 @@
             const bodyHeight = document.body.scrollHeight;
 
             // Only apply on mobile view
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth) {
                 // Show navbar when at top
                 if (scrollY === 0) {
                     navbar.style.top = '0';
