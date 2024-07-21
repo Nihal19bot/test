@@ -3,61 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Booking Form</title>
+    <title>Service Website</title>
     <style>
+        /* General Styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: #f0f5f9; /* Light background color */
+            color: #000000; /* Dark text color */
         }
-        .container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #1e90ff;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #003b75;
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3498db; /* Blue navbar background color */
             color: white;
-            border: none;
-            cursor: pointer;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for navbar */
+            transition: top 0.3s; /* Transition for hiding/showing navbar */
         }
-        button:hover {
-            background-color: #1c86ee;
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            border-bottom: none; /* Remove underline */
         }
-        .hamburger {
+        .navbar .hamburger {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            display: block;
+            right: 40px; /* Adjusted position */
             width: 30px;
             height: 30px;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 1100; /* Ensure hamburger is above menu */
         }
-        .hamburger div {
+        .navbar .hamburger div {
             width: 100%;
             height: 4px;
-            background-color: #333333;
+            background-color: #ffffff;
             margin: 6px 0;
         }
         .sidebar {
@@ -83,73 +72,257 @@
         .sidebar a:hover {
             color: #1e90ff;
         }
+        .navbar-menu.open {
+            width: 250px; /* Set width for sidebar */
+        }
+        .header {
+            background: #ecf0f1; /* Light gray header background */
+            color: #333;
+            padding: 100px 20px 20px;
+            text-align: center;
+            margin-top: 0px; /* Adjust for navbar height */
+        }
+        .boxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between; /* Space between boxes on desktop */
+            padding: 20px;
+            margin-top: 20px; /* Spacing below header */
+        }
+        .box {
+            margin: 10px;
+            text-align: center;
+            flex: 0 0 calc(33% - 20px); /* Adjusted width for desktop */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 200px; /* Decrease max-width of each service box */
+            background-color: #ffffff;
+            padding: 15px; /* Decreased padding */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .box:hover {
+            transform: translateY(-5px);
+        }
+        .box a {
+            text-decoration: none; /* Remove underline from box text */
+        }
+        .box img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px; /* Space between image and text */
+        }
+        .box h2 {
+            margin-top: 10px;
+            font-size: 1.3rem; /* Adjust font size */
+            color: #333; /* Black text color */
+        }
+        .box p {
+            margin: 0;
+            padding: 0 10px; /* Decreased padding for text */
+            color: rgb(0, 0, 0); /* RGB color for text */
+        }
+        @media (max-width: 768px) {
+            .navbar .hamburger {
+                display: block;
+                right: 40px; /* Adjusted position on mobile */
+            }
+            .sidebar {
+                width: 0; /* Ensure sidebar is closed by default on mobile */
+            }
+            .sidebar a {
+                font-size: 20px; /* Adjust font size for mobile */
+            }
+            .boxes {
+                display: grid; /* Change to grid layout */
+                grid-template-columns: 1fr 1fr; /* Two columns */
+                gap: 20px; /* Space between boxes */
+                padding: 20px;
+            }
+            .box {
+                width: 100%; /* Full width of grid cell */
+                max-width: none; /* Remove max-width constraint for mobile */
+                margin: 0; /* Remove margin for mobile */
+                padding: 0px; /* Adjusted padding for mobile */
+            }
+            .box img {
+                max-height: 150px; /* Adjusted image size for mobile */
+                margin-bottom: 10px; /* Space between image and text */
+            }
+        }
+        .footer {
+            background-color: #3498db; /* Blue footer background color */
+            color: white;
+            text-align: center;
+            padding: 0px 0;
+            position: fixed;
+            bottom: -80px; /* Initially hide footer */
+            width: 100%;
+            z-index: 1000; /* Ensure footer is above content */
+            transition: bottom 0.3s; /* Transition for hiding/showing footer */
+        }
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1001; /* Ensure it appears above other content */
+        }
+        .popup h2 {
+            margin-top: 0;
+        }
+        .popup button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .popup button:hover {
+            background-color: #2980b9;
+        }
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000; /* Ensure it appears below the popup */
+        }
+        .popup .terms-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555; /* Dark gray text color for terms */
+        }
+        /* Hide/show classes for navbar and footer */
+        .hide-navbar {
+            top: -60px; /* Move navbar up to hide it */
+        }
+        .show-footer {
+            bottom: 0; /* Move footer up to show it */
+        }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <a href="electrician.png">Service Website</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 
-<div class="hamburger" onclick="toggleNav()">
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebar">
+        <a href="index.html">Home</a>
+        <a href="#account">Account</a>
+        <a href="#contact">Contact Us</a>
+    </div>
 
-<div id="mySidebar" class="sidebar">
-    <a href="index.html">Home</a>
-    <a href="#">Contact Us</a>
-</div>
+    <!-- Main Content -->
+    <div class="header" id="home">
+        <h1>Welcome to Our Service Website</h1>
+        <p>We provide the best services for our clients with on-time guarantee.</p>
+    </div>
 
-<div class="container">
-    <h2>Service Booking Form</h2>
-    <h3>Water Technician</h3>
-    <form>
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required>
+    <div class="boxes">
+        <div class="box" onclick="window.location.href='page1.html';">
+            <a href="restaurant/res1.html">
+                <img src="restaurant/res1.jpg" alt="please try again later">
+                <h2>Restaurant 1</h2>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page1.html';">
+            <a href="restaurant/res2.html">
+                <img src="restaurant/res2.jpg" alt="please try again later">
+                <h2>Restaurant 2</h2>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page1.html';">
+            <a href="restaurant/res3.html">
+                <img src="restaurant/res3.jpg" alt="please try again later">
+                <h2>Restaurant 3</h2>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page4.html';">
+            <a href="restaurant/res4.html">
+                <img src="restaurant/res4.jpg" alt="please try again later">
+                <h2>Restaurant 4</h2>
+            </a>
+        </div>
+    </div>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Service Website. All Rights Reserved.</p>
+    </div>
 
-        <label for="mobile">Mobile Number</label>
-        <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required placeholder="1234567890">
-
-        <label for="service">Select Service</label>
-        <select id="service" name="service" required>
-            <option value="" disabled selected>Select</option>
-            <option value="service1">Service 1</option>
-            <option value="service2">Service 2</option>
-            <option value="service3">Service 3</option>
-            <option value="service4">Service 4</option>
-            <option value="service5">Service 5</option>
-            <option value="service6">Service 6</option>
-        </select>
-
-        <label for="date">Preferred Date</label>
-        <input type="date" id="date" name="date" required>
-
-        <label for="timeslot">Preferred Time Slot</label>
-        <select id="timeslot" name="timeslot" required>
-            <option value="" disabled selected>Select</option>
-            <option value="09:00-10:00">09:00-10:00</option>
-            <option value="10:00-11:00">10:00-11:00</option>
-            <option value="11:00-12:00">11:00-12:00</option>
-            <option value="12:00-01:00">12:00-01:00</option>
-            <option value="01:00-02:00">01:00-02:00</option>
-            <option value="02:00-03:00">02:00-03:00</option>
-        </select>
-
-        <button type="submit">Book Now</button>
-    </form>
-</div>
-
-<script>
-    function toggleNav() {
-        var sidebar = document.getElementById("mySidebar");
-        if (sidebar.style.width === "250px") {
-            sidebar.style.width = "0";
-        } else {
-            sidebar.style.width = "250px";
+    <!-- Scripts -->
+    <script>
+        function toggleMenu() {
+            var sidebar = document.getElementById("mySidebar");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "250px";
+            }
         }
-    }
-</script>
 
+        function closePopup() {
+            document.querySelector('.popup').style.display = 'none';
+            document.querySelector('.overlay').style.display = 'none';
+        }
+
+        function showPopup() {
+            document.querySelector('.popup').style.display = 'block';
+            document.querySelector('.overlay').style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show popup when page loads
+            showPopup();
+        });
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            const footer = document.querySelector('.footer');
+            const scrollY = window.scrollY;
+            const innerHeight = window.innerHeight;
+            const bodyHeight = document.body.scrollHeight;
+
+            // Only apply on mobile view
+            if (window.innerWidth) {
+                // Show navbar when at top
+                if (scrollY === 0) {
+                    navbar.style.top = '0';
+                } else {
+                    navbar.style.top = '-60px';
+                }
+
+                // Show footer when at bottom
+                if (scrollY + innerHeight >= bodyHeight) {
+                    footer.classList.add('show-footer');
+                } else {
+                    footer.classList.remove('show-footer');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

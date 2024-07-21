@@ -99,13 +99,13 @@
 </div>
 
 <div id="mySidebar" class="sidebar">
-    <a href="index.html">Home</a>
+    <a href="../index.html">Home</a>
     <a href="#">Contact Us</a>
 </div>
 
 <div class="container">
     <h2>Service Booking Form</h2>
-    <h3>Car Booking</h3>
+    <h3>Hotel 3</h3>
     <form id="bookingForm">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required>
@@ -119,13 +119,13 @@
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
 
-        <label for="service">Select Car</label>
+
+        <label for="service">Select Service</label>
         <select id="service" name="service" required>
             <option value="" disabled selected>Select</option>
-            <option value="Swift Dzire">Swift Dzire</option>
-            <option value="Scorpio">Scorpio</option>
-            <option value="WagonR">WagonR</option>
-            <option value="Other Car">Any Other Car</option>
+            <option value="Tap Repair">Tap Repair</option>
+            <option value="Water Fitting">Water Fitting</option>
+            <option value="Any Other service">Any Other Service</option>
         </select>
         <div id="serviceError" class="error"></div>
 
@@ -163,27 +163,6 @@
         <label for="auto-location">Auto Location Detect</label>
         <button type="button" onclick="detectLocation()">Detect Location</button>
         <div id="autoLocationError" class="error"></div>
-
-        <h3>Destination Address</h3>
-        <label for="dest-state">State</label>
-        <input type="text" id="dest-state" name="dest-state" required>
-        <div id="destStateError" class="error"></div>
-
-        <label for="dest-district">District</label>
-        <input type="text" id="dest-district" name="dest-district" required>
-        <div id="destDistrictError" class="error"></div>
-
-        <label for="dest-street">Street</label>
-        <input type="text" id="dest-street" name="dest-street" required>
-        <div id="destStreetError" class="error"></div>
-
-        <label for="dest-colony">Colony</label>
-        <input type="text" id="dest-colony" name="dest-colony" required>
-        <div id="destColonyError" class="error"></div>
-
-        <label for="dest-pincode">Pincode</label>
-        <input type="text" id="dest-pincode" name="dest-pincode" pattern="\d{6}" required placeholder="123456">
-        <div id="destPincodeError" class="error"></div>
 
         <button type="submit">Book Now</button>
     </form>
@@ -334,21 +313,6 @@
             document.getElementById('pincodeError').textContent = 'Please enter a valid 6-digit pincode.';
         }
 
-        // Validate destination address fields
-        const destState = document.getElementById('dest-state').value;
-        const destDistrict = document.getElementById('dest-district').value;
-        const destStreet = document.getElementById('dest-street').value;
-        const destColony = document.getElementById('dest-colony').value;
-        const destPincode = document.getElementById('dest-pincode').value;
-        const destPincodePattern = /^\d{6}$/;
-        if (!destState || !destDistrict || !destStreet || !destColony || !destPincode) {
-            valid = false;
-            document.getElementById('destStateError').textContent = 'All destination address fields are required.';
-        } else if (!destPincodePattern.test(destPincode)) {
-            valid = false;
-            document.getElementById('destPincodeError').textContent = 'Please enter a valid 6-digit pincode for the destination.';
-        }
-
         if (valid) {
             // Assuming form submission via fetch
             fetch('YOUR_SERVER_ENDPOINT_URL', {
@@ -360,6 +324,7 @@
                     name: document.getElementById('name').value,
                     email: document.getElementById('email').value,
                     mobile: document.getElementById('mobile').value,
+                    acType: document.getElementById('acType').value,
                     service: document.getElementById('service').value,
                     date: document.getElementById('date').value,
                     timeslot: document.getElementById('timeslot').value,
@@ -368,11 +333,6 @@
                     street: document.getElementById('street').value,
                     colony: document.getElementById('colony').value,
                     pincode: document.getElementById('pincode').value,
-                    destState: document.getElementById('dest-state').value,
-                    destDistrict: document.getElementById('dest-district').value,
-                    destStreet: document.getElementById('dest-street').value,
-                    destColony: document.getElementById('dest-colony').value,
-                    destPincode: document.getElementById('dest-pincode').value,
                 }),
             })
             .then(response => {

@@ -119,16 +119,17 @@
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
 
+
         <label for="service">Select Service</label>
         <select id="service" name="service" required>
             <option value="" disabled selected>Select</option>
-            <option value="submersible starter repair">submersible starter repair</option>
-            <option value="submersible pump repair">submersible pump repair</option>
-            <option value="cooler repair">cooler repair</option>
-            <option value="fan repair">fan repair</option>
-            <option value="electric fitting">electric fitting</option>
-            <option value="motor winding">motor winding</option>
-            <option value="Other service">Other</option>
+            <option value="Submersible Starter Repair">Submersible Starter Repair</option>
+            <option value="Submersible Pump Repair">Submersible Pump Repair</option>
+            <option value="Fan Repair">Fan Repair</option>
+            <option value="Cooler Repair">Cooler Repair</option>
+            <option value="Home Electricity Problem">Home Electricity Problem</option>
+            <option value="Washing Machine Repair">Washing Machine Repair</option>
+            <option value="Any Other service">Any Other Service</option>
         </select>
         <div id="serviceError" class="error"></div>
 
@@ -167,8 +168,7 @@
         <button type="button" onclick="detectLocation()">Detect Location</button>
         <div id="autoLocationError" class="error"></div>
 
-        <button type="button" onclick="submitForm()">Proceed to pay</button>
-        <p>Pay ₹20 to confirm booking and it is refundable.</p>
+        <button type="submit">Book Now</button>
     </form>
 </div>
 
@@ -222,33 +222,63 @@
     }
 
     function parseTime(timeStr) {
-        let [time, period] = timeStr.split(/(?=[ap]m)/);
-        let [hours, minutes] = time.split(':').map(Number);
-        if (period === 'pm' && hours !== 12) hours += 12;
-        if (period === 'am' && hours === 12) hours = 0;
+        let [hours, minutes] = timeStr.split(':').map(Number);
+        if (timeStr.includes('pm') && hours < 12) hours += 12;
+        if (timeStr.includes('am') && hours === 12) hours = 0;
         return new Date().setHours(hours, minutes, 0, 0);
     }
 
     function detectLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
-                // Example: Display location details
-                // In real implementation, you would use these coordinates to get address details
-                document.getElementById('state').value = "Detected State";
-                document.getElementById('district').value = "Detected District";
-                document.getElementById('street').value = "Detected Street";
-                document.getElementById('colony').value = "Detected Colony";
-                document.getElementById('pincode').value = "Detected Pincode";
-                document.getElementById('autoLocationError').textContent = "";
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                // Use OpenStreetMap Nominatim API to reverse geocode the coordinates
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const address = data.address || {};
+
+                        document.getElementById('state').value = address.state || "";
+                        document.getElementById('district').value = address.county || "";
+                        document.getElementById('street').value = address.road || "";
+                        document.getElementById('colony').value = address.suburb || "";
+                        document.getElementById('pincode').value = address.postcode || "";
+                        document.getElementById('autoLocationError').textContent = "";
+                    })
+                    .catch(error => {
+                        document.getElementById('autoLocationError').textContent = "Failed to retrieve address details.";
+                        console.error('Geocoding error:', error);
+                    });
             }, function(error) {
-                document.getElementById('autoLocationError').textContent = "Failed to retrieve location.";
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        document.getElementById('autoLocationError').textContent = "Permission denied for location access.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        document.getElementById('autoLocationError').textContent = "Location information is unavailable.";
+                        break;
+                    case error.TIMEOUT:
+                        document.getElementById('autoLocationError').textContent = "Location request timed out.";
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        document.getElementById('autoLocationError').textContent = "An unknown error occurred.";
+                        break;
+                }
+            }, {
+                enableHighAccuracy: true, // Request high accuracy
+                timeout: 10000, // 10 seconds timeout
+                maximumAge: 0 // Do not use cached location
             });
         } else {
             document.getElementById('autoLocationError').textContent = "Geolocation is not supported by this browser.";
         }
     }
 
-    function submitForm() {
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
         let form = document.getElementById('bookingForm');
         let valid = true;
 
@@ -298,6 +328,7 @@
                     name: document.getElementById('name').value,
                     email: document.getElementById('email').value,
                     mobile: document.getElementById('mobile').value,
+                    acType: document.getElementById('acType').value,
                     service: document.getElementById('service').value,
                     date: document.getElementById('date').value,
                     timeslot: document.getElementById('timeslot').value,
@@ -310,7 +341,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    window.location.href = 'https://rzp.io/l/mlpKQ2H4mW';
+                    window.location.href = 'another_page.html'; // Redirect to another page
                 } else {
                     console.error('Form submission failed.');
                 }
@@ -319,7 +350,8 @@
                 console.error('Network error:', error);
             });
         }
-    }
+    });
 </script>
+
 </body>
 </html>
