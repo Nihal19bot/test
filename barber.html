@@ -119,19 +119,24 @@
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
 
-
-        <label for="service">Select Service</label>
-        <select id="service" name="service" required>
+        <label for="select">Select</label>
+        <select id="Type" name="Type" required>
             <option value="" disabled selected>Select</option>
-            <option value="Submersible Starter Repair">Submersible Starter Repair</option>
-            <option value="Submersible Pump Repair">Submersible Pump Repair</option>
-            <option value="Fan Repair">Fan Repair</option>
-            <option value="Cooler Repair">Cooler Repair</option>
-            <option value="Home Electricity Problem">Home Electricity Problem</option>
-            <option value="Washing Machine Repair">Washing Machine Repair</option>
-            <option value="Other service">Any Other Service</option>
+            <option value="Man">Man</option>
+            <option value="Woman">Woman</option>
+            <option value="Child">Child</option>
         </select>
-        <div id="serviceError" class="error"></div>
+        <div id="acTypeError" class="error"></div>
+
+        <label for="Service">Select Service</label>
+        <select id="Service" name="Service" required>
+            <option value="" disabled selected>Select</option>
+            <option value="Cutting">Cutting</option>
+            <option value="Shaving">Shaving</option>
+            <option value="Both Cutting & Shaving">Both Cutting & Shaving</option>
+            <option value="Other service">Other Service</option>
+        </select>
+        <div id="problemError" class="error"></div>
 
         <label for="date">Preferred Date</label>
         <input type="date" id="date" name="date" required onchange="updateTimeSlots()">
@@ -329,7 +334,7 @@
                     email: document.getElementById('email').value,
                     mobile: document.getElementById('mobile').value,
                     acType: document.getElementById('acType').value,
-                    service: document.getElementById('service').value,
+                    problem: document.getElementById('problem').value,
                     date: document.getElementById('date').value,
                     timeslot: document.getElementById('timeslot').value,
                     state: document.getElementById('state').value,
