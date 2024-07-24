@@ -105,7 +105,7 @@
 <div class="container">
     <h2>Service Booking Form</h2>
     <h3>Electrician</h3>
-    <form id="bookingForm">
+    <form id="Engineer Form">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required>
         <div id="nameError" class="error"></div>
@@ -117,26 +117,6 @@
         <label for="mobile">Mobile Number</label>
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
-
-
-        <label for="service">Select Service</label>
-        <select id="service" name="service" required>
-            <option value="" disabled selected>Select</option>
-            <option value="Repair Something">Repair Something</option>
-            <option value="Order For Making ">Order For Making </option>
-            <option value="Other service">Other Service</option>
-        </select>
-        <div id="serviceError" class="error"></div>
-
-        <label for="date">Preferred Date</label>
-        <input type="date" id="date" name="date" required onchange="updateTimeSlots()">
-        <div id="dateError" class="error"></div>
-
-        <label for="timeslot">Preferred Time Slot</label>
-        <select id="timeslot" name="timeslot" required>
-            <option value="" disabled selected>Select</option>
-        </select>
-        <div id="timeslotError" class="error"></div>
 
         <h3>Address</h3>
         <label for="state">State</label>

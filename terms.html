@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Booking Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #008cba;
+            color: white;
+            padding: 0.5em 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: top 0.3s;
+        }
+        .content {
+            padding: 5em 2em; /* Adjusted padding to account for fixed header */
+        }
+        .terms {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 2em;
+            margin: 2em 0;
+        }
+        @media (max-width: 768px) {
+            /* No styles for mobile menu or navbar */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>The Serving</h1>
+    </header>
+    <div class="content">
+        <h2>Terms and Conditions</h2>
+        <div class="terms">
+            <h3>Introduction</h3>
+            <p>Welcome to The Serving. These terms and conditions outline the rules and regulations for the use of our website.</p>
+
+            <h3>Acceptance of Terms</h3>
+            <p>By accessing this website, we assume you accept these terms and conditions in full. Do not continue to use the website if you do not accept all of the terms and conditions</p>
+
+            <h3>Booking Services</h3>
+            <p>When you make a booking through our website, you agree to provide accurate and complete information. We reserve the right to refuse service, terminate accounts, or cancel bookings at our sole discretion.</p>
+
+            <h3>Payment</h3>
+            <p>All payments must be made after or before the service. We accept various payment methods and will ensure that your payment information is kept secure.</p>
+
+            <h3>Cancellation and Refund Policy</h3>
+            <p>Cancellations can be made anytime after the booking done but if our engineer reached to destination then charge of ₹150 will be taken. Refunds will be processed within 7-10 business days.</p>
+
+            <h3>Changes to Terms</h3>
+            <p>We reserve the right to modify these terms and conditions at any time. It is your responsibility to review these terms periodically.</p>
+
+            <h3>Contact Us</h3>
+            <p>If you have any questions about these terms, please contact us at support@servicebooking.com.</p>
+        </div>
+    </div>
+    <script>
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            let st = window.pageYOffset || document.documentElement.scrollTop;
+            const header = document.querySelector('header');
+
+            if (st > lastScrollTop) {
+                // Downscroll
+                header.style.top = '-100px';
+            } else {
+                // Upscroll
+                if (window.scrollY === 0) {
+                    header.style.top = '0';
+                }
+            }
+
+            lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+        }, false);
+    </script>
+</body>
+</html>
