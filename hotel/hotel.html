@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>homedeliver.in</title>
+    <title>Service Website</title>
     <style>
         /* General Styles */
         body {
@@ -153,6 +153,17 @@
                 margin-bottom: 10px; /* Space between image and text */
             }
         }
+        .footer {
+            background-color: #3498db; /* Blue footer background color */
+            color: white;
+            text-align: center;
+            padding: 0px 0;
+            position: fixed;
+            bottom: -80px; /* Initially hide footer */
+            width: 100%;
+            z-index: 1000; /* Ensure footer is above content */
+            transition: bottom 0.3s; /* Transition for hiding/showing footer */
+        }
         .popup {
             display: none; /* Hidden by default */
             position: fixed;
@@ -195,9 +206,12 @@
             font-size: 14px;
             color: #555; /* Dark gray text color for terms */
         }
-        /* Hide/show classes for navbar */
+        /* Hide/show classes for navbar and footer */
         .hide-navbar {
             top: -60px; /* Move navbar up to hide it */
+        }
+        .show-footer {
+            bottom: 0; /* Move footer up to show it */
         }
     </style>
 </head>
@@ -205,7 +219,7 @@
     <!-- Navbar -->
     <div class="navbar">
         <div class="logo">
-            <a href="">TheServing</a>
+            <a href="electrician.png">Service Website</a>
         </div>
         <div class="hamburger" onclick="toggleMenu()">
             <div></div>
@@ -216,97 +230,46 @@
 
     <!-- Sidebar -->
     <div id="mySidebar" class="sidebar">
-        <a href="index.html">Home</a>
-        <a href="engineer.html">Register as Engineer</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="terms.html">Terms&Conditions</a>
-    </div>
+        <a href="../index.html">Home</a>
 
-    <!-- Popup Container -->
-    <div class="overlay"></div>
-    <div class="popup" id="popup">
-        <h2>Home Deliver</h2>
-        <p>If the issue is not resolved on time, you will receive up to 50% discount.</p>
-        <p>In every 3rd service/booking you will get up to 50% discount.</p>
-        <p class="terms-text">
-            <a href="terms.html" style="color: #3498db;">Terms and Conditions Apply</a>
-        </p>
-        <button onclick="closePopup()">Close</button>
     </div>
 
     <!-- Main Content -->
     <div class="header" id="home">
-        <h1>Home Deliver</h1>
-        <p>We provide the best services for our clients with on-time guarantee.</p>
+        <h1>Select your favorite Hotel</h1>
     </div>
 
     <div class="boxes">
-        <div class="box" onclick="window.location.href='page3.html';">
-            <a href="electric/electricianpage.html">
-                <img src="electric/electrician.png" alt="please try again later">
-                <h2>Electrician</h2>
-                <p>Guaranteed Work</p>
-            </a>
-        </div>
-        <div class="box" onclick="window.location.href='page3.html';">
-            <a href="ac/ac.html">
-                <img src="ac/ac.jpg" alt="please try again later">
-                <h2>AC Technician</h2>
-                <p>Guaranteed Work</p>
-            </a>
-        </div>
         <div class="box" onclick="window.location.href='page1.html';">
-            <a href="sound/sound.html">
-                <img src="sound/sound.jpg" alt="please try again later">
-                <h2>Sound System Repair</h2>
-            </a>
-        </div>
-        <div class="box" onclick="window.location.href='page4.html';">
-            <a href="plumber/plumber.html">
-                <img src="plumber/plumber.jpeg" alt="please try again later">
-                <h2>Plumber</h2>
-                <p>Guaranteed Leakage Stop</p>
-            </a>
-        </div>
-        <div class="box" onclick="window.location.href='page3.html';">
-            <a href="barber/barber.html">
-                <img src="barber/barber.jpeg" alt="please try again later">
-                <h2>Barber</h2>
-                <p>All hairstyle available for male/female</p>
-            </a>
-        </div>
-        <div class="box" onclick="window.location.href='page4.html';">
-            <a href="cleaner/cleaner.html">
-                <img src="cleaner/cleaner.jpg" alt="please try again later">
-                <h2>Cleaner</h2>
-                <p>Water Tank cleaning</p>
-                <p>House/Hotel Cleaning</p>
-            </a>
-        </div>
-        <div class="box" onclick="window.location.href='page3.html';">
-            <a href="carpanter/carpenter.html">
-                <img src="carpanter/carpenter.jpeg" alt="please try again later">
-                <h2>Carpenter</h2>
-            </a>
-        </div>
-        <div class="box" onclick="window.location.href='page1.html';">
-            <a href="hotel/hotel.html">
-                <img src="hotel/hotel.jpg" alt="please try again later">
-                <h2>Hotel Booking</h2>
-                <p>Currently Unavailable</p>
+            <a href="">
+                <img src="hotel/hotel1.jpg" alt="please try again later">
+                <h2>Unavailable</h2>
             </a>
         </div>
         <div class="box" onclick="window.location.href='page1.html';">
             <a href="">
-                <img src="car/car.jpg" alt="please try again later">
-                <h2>Currently Unavailable</h2>
+                <img src="hotel/hotel2.jpg" alt="please try again later">
+                <h2>Unavailable</h2>
             </a>
         </div>
+        <div class="box" onclick="window.location.href='page1.html';">
+            <a href="">
+                <img src="hotel/hotel3.jpg" alt="please try again later">
+                <h2>Unavailable</h2>
+            </a>
+        </div>
+        <div class="box" onclick="window.location.href='page4.html';">
+            <a href="">
+                <img src="hotel/hotel4.jpg" alt="please try again later">
+                <h2>Unavailable</h2>
+            </a>
+        </div>
+
     </div>
 
-    <!-- Bottom Text -->
-    <div style="background-color: #f0f5f9; color: rgb(57, 154, 233); text-align: center; padding: 10px;">
-        <p>&copy; 2024 Home Deliver. All Rights Reserved.</p>
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Service Website. All Rights Reserved.</p>
     </div>
 
     <!-- Scripts -->
@@ -337,7 +300,10 @@
 
         window.addEventListener('scroll', function() {
             const navbar = document.querySelector('.navbar');
+            const footer = document.querySelector('.footer');
             const scrollY = window.scrollY;
+            const innerHeight = window.innerHeight;
+            const bodyHeight = document.body.scrollHeight;
 
             // Only apply on mobile view
             if (window.innerWidth) {
@@ -346,6 +312,13 @@
                     navbar.style.top = '0';
                 } else {
                     navbar.style.top = '-60px';
+                }
+
+                // Show footer when at bottom
+                if (scrollY + innerHeight >= bodyHeight) {
+                    footer.classList.add('show-footer');
+                } else {
+                    footer.classList.remove('show-footer');
                 }
             }
         });

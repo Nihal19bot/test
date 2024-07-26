@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Booking Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1e90ff;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #003b75;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1c86ee;
+        }
+        .hamburger {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: block;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 100%;
+            height: 4px;
+            background-color: #333333;
+            margin: 6px 0;
+        }
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 999;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #f0f8ff;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            color: #1e90ff;
+        }
+        .error {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hamburger" onclick="toggleNav()">
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+<div id="mySidebar" class="sidebar">
+    <a href="../index.html">Home</a>
+</div>
+
+<div class="container">
+    <h2>Currently Unavailable</h2>
+    <h3>Car Booking</h3>
+    <form id="bookingForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+        <div id="nameError" class="error"></div>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <div id="emailError" class="error"></div>
+
+        <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
+        <div id="mobileError" class="error"></div>
+
+        <label for="service">Select Car</label>
+        <select id="service" name="service" required>
+            <option value="" disabled selected>Select</option>
+            <option value="Swift Dzire">Swift Dzire</option>
+            <option value="Scorpio">Scorpio</option>
+            <option value="WagonR">WagonR</option>
+            <option value="Other Car">Any Other Car</option>
+        </select>
+        <div id="serviceError" class="error"></div>
+
+        <label for="date">Preferred Date</label>
+        <input type="date" id="date" name="date" required onchange="updateTimeSlots()">
+        <div id="dateError" class="error"></div>
+
+        <label for="timeslot">Preferred Time Slot</label>
+        <select id="timeslot" name="timeslot" required>
+            <option value="" disabled selected>Select</option>
+        </select>
+        <div id="timeslotError" class="error"></div>
+
+        <h3>Address</h3>
+        <label for="state">State</label>
+        <input type="text" id="state" name="state" required>
+        <div id="stateError" class="error"></div>
+
+        <label for="district">District</label>
+        <input type="text" id="district" name="district" required>
+        <div id="districtError" class="error"></div>
+
+        <label for="street">Street</label>
+        <input type="text" id="street" name="street" required>
+        <div id="streetError" class="error"></div>
+
+        <label for="colony">Colony</label>
+        <input type="text" id="colony" name="colony" required>
+        <div id="colonyError" class="error"></div>
+
+        <label for="pincode">Pincode</label>
+        <input type="text" id="pincode" name="pincode" pattern="\d{6}" required placeholder="123456">
+        <div id="pincodeError" class="error"></div>
+
+        <label for="auto-location">Auto Location Detect</label>
+        <button type="button" onclick="detectLocation()">Detect Location</button>
+        <div id="autoLocationError" class="error"></div>
+
+        <h3>Destination Address</h3>
+        <label for="dest-state">State</label>
+        <input type="text" id="dest-state" name="dest-state" required>
+        <div id="destStateError" class="error"></div>
+
+        <label for="dest-district">District</label>
+        <input type="text" id="dest-district" name="dest-district" required>
+        <div id="destDistrictError" class="error"></div>
+
+        <label for="dest-street">Street</label>
+        <input type="text" id="dest-street" name="dest-street" required>
+        <div id="destStreetError" class="error"></div>
+
+        <label for="dest-colony">Colony</label>
+        <input type="text" id="dest-colony" name="dest-colony" required>
+        <div id="destColonyError" class="error"></div>
+
+        <label for="dest-pincode">Pincode</label>
+        <input type="text" id="dest-pincode" name="dest-pincode" pattern="\d{6}" required placeholder="123456">
+        <div id="destPincodeError" class="error"></div>
+
+        <button type="submit">Book Now</button>
+    </form>
+</div>
+
+<script>
+    function toggleNav() {
+        var sidebar = document.getElementById("mySidebar");
+        if (sidebar.style.width === "250px") {
+            sidebar.style.width = "0";
+        } else {
+            sidebar.style.width = "250px";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById('date');
+        const now = new Date();
+        const today = now.toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+        dateInput.addEventListener('change', updateTimeSlots);
+        updateTimeSlots();
+    });
+
+    function updateTimeSlots() {
+        const timeslotSelect = document.getElementById('timeslot');
+        timeslotSelect.innerHTML = '<option value="" disabled selected>Select</option>';
+
+        const now = new Date();
+        const selectedDate = new Date(document.getElementById('date').value);
+        selectedDate.setHours(0, 0, 0, 0);
+
+        const isToday = selectedDate.getTime() === now.setHours(0, 0, 0, 0);
+        const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+
+        const timeSlots = [
+            "12:00-02:00am", "02:00-04:00am", "04:00-06:00am", "06:00-08:00am",
+            "08:00-10:00am", "10:00-12:00pm", "12:00-02:00pm", "02:00-04:00pm",
+            "04:00-06:00pm", "06:00-08:00pm", "08:00-10:00pm", "10:00-12:00am"
+        ];
+
+        timeSlots.forEach(slot => {
+            const [startStr, endStr] = slot.split('-');
+            const start = parseTime(startStr);
+
+            if (!isToday || start >= twoHoursLater) {
+                const option = document.createElement('option');
+                option.value = slot;
+                option.text = slot;
+                timeslotSelect.appendChild(option);
+            }
+        });
+    }
+
+    function parseTime(timeStr) {
+        let [hours, minutes] = timeStr.split(':').map(Number);
+        if (timeStr.includes('pm') && hours < 12) hours += 12;
+        if (timeStr.includes('am') && hours === 12) hours = 0;
+        return new Date().setHours(hours, minutes, 0, 0);
+    }
+
+    function detectLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                // Use OpenStreetMap Nominatim API to reverse geocode the coordinates
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const address = data.address || {};
+
+                        document.getElementById('state').value = address.state || "";
+                        document.getElementById('district').value = address.county || "";
+                        document.getElementById('street').value = address.road || "";
+                        document.getElementById('colony').value = address.suburb || "";
+                        document.getElementById('pincode').value = address.postcode || "";
+                        document.getElementById('autoLocationError').textContent = "";
+                    })
+                    .catch(error => {
+                        document.getElementById('autoLocationError').textContent = "Failed to retrieve address details.";
+                        console.error('Geocoding error:', error);
+                    });
+            }, function(error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        document.getElementById('autoLocationError').textContent = "Permission denied for location access.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        document.getElementById('autoLocationError').textContent = "Location information is unavailable.";
+                        break;
+                    case error.TIMEOUT:
+                        document.getElementById('autoLocationError').textContent = "Location request timed out.";
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        document.getElementById('autoLocationError').textContent = "An unknown error occurred.";
+                        break;
+                }
+            }, {
+                enableHighAccuracy: true, // Request high accuracy
+                timeout: 10000, // 10 seconds timeout
+                maximumAge: 0 // Do not use cached location
+            });
+        } else {
+            document.getElementById('autoLocationError').textContent = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let form = document.getElementById('bookingForm');
+        let valid = true;
+
+        // Clear previous error messages
+        document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+        // Validate required fields
+        document.querySelectorAll('input[required], select[required]').forEach(el => {
+            if (!el.value.trim()) {
+                valid = false;
+                document.getElementById(el.id + 'Error').textContent = 'This field is required.';
+            }
+        });
+
+        // Validate email format
+        const email = document.getElementById('email').value;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            valid = false;
+            document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+        }
+
+        // Validate mobile number format
+        const mobile = document.getElementById('mobile').value;
+        const mobilePattern = /^\d{10}$/;
+        if (!mobilePattern.test(mobile)) {
+            valid = false;
+            document.getElementById('mobileError').textContent = 'Please enter a valid 10-digit mobile number.';
+        }
+
+        // Validate pincode format
+        const pincode = document.getElementById('pincode').value;
+        const pincodePattern = /^\d{6}$/;
+        if (!pincodePattern.test(pincode)) {
+            valid = false;
+            document.getElementById('pincodeError').textContent = 'Please enter a valid 6-digit pincode.';
+        }
+
+        // Validate destination address fields
+        const destState = document.getElementById('dest-state').value;
+        const destDistrict = document.getElementById('dest-district').value;
+        const destStreet = document.getElementById('dest-street').value;
+        const destColony = document.getElementById('dest-colony').value;
+        const destPincode = document.getElementById('dest-pincode').value;
+        const destPincodePattern = /^\d{6}$/;
+        if (!destState || !destDistrict || !destStreet || !destColony || !destPincode) {
+            valid = false;
+            document.getElementById('destStateError').textContent = 'All destination address fields are required.';
+        } else if (!destPincodePattern.test(destPincode)) {
+            valid = false;
+            document.getElementById('destPincodeError').textContent = 'Please enter a valid 6-digit pincode for the destination.';
+        }
+
+        if (valid) {
+            // Assuming form submission via fetch
+            fetch('YOUR_SERVER_ENDPOINT_URL', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    mobile: document.getElementById('mobile').value,
+                    service: document.getElementById('service').value,
+                    date: document.getElementById('date').value,
+                    timeslot: document.getElementById('timeslot').value,
+                    state: document.getElementById('state').value,
+                    district: document.getElementById('district').value,
+                    street: document.getElementById('street').value,
+                    colony: document.getElementById('colony').value,
+                    pincode: document.getElementById('pincode').value,
+                    destState: document.getElementById('dest-state').value,
+                    destDistrict: document.getElementById('dest-district').value,
+                    destStreet: document.getElementById('dest-street').value,
+                    destColony: document.getElementById('dest-colony').value,
+                    destPincode: document.getElementById('dest-pincode').value,
+                }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = 'another_page.html'; // Redirect to another page
+                } else {
+                    console.error('Form submission failed.');
+                }
+            })
+            .catch(error => {
+                console.error('Network error:', error);
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
