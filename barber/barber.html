@@ -104,8 +104,9 @@
 
 <div class="container">
     <h2>Service Booking Form</h2>
-    <h3>Electrician</h3>
-    <form id="bookingForm">
+    <h3>Barber</h3>
+    <form id="bookingForm" action="barber.php" method="post">
+
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required>
         <div id="nameError" class="error"></div>
@@ -118,24 +119,24 @@
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
 
-        <label for="select">Select</label>
-        <select id="Type" name="Type" required>
+        <label for="select">Select </label>
+        <select id="type" name="type" required>
             <option value="" disabled selected>Select</option>
             <option value="Man">Man</option>
-            <option value="Woman">Woman</option>
+            <option value="Women">Women</option>
             <option value="Child">Child</option>
         </select>
-        <div id="acTypeError" class="error"></div>
+        <div id="typeError" class="error"></div>
 
-        <label for="Service">Select Service</label>
-        <select id="Service" name="Service" required>
+        <label for="service">Select service</label>
+        <select id="service" name="service" required>
             <option value="" disabled selected>Select</option>
             <option value="Cutting">Cutting</option>
             <option value="Shaving">Shaving</option>
             <option value="Both Cutting & Shaving">Both Cutting & Shaving</option>
-            <option value="Other service">Other Service</option>
+            <option value="Other service">Other</option>
         </select>
-        <div id="problemError" class="error"></div>
+        <div id="serviceError" class="error"></div>
 
         <label for="date">Preferred Date</label>
         <input type="date" id="date" name="date" required onchange="updateTimeSlots()">
@@ -322,37 +323,9 @@
         }
 
         if (valid) {
-            // Assuming form submission via fetch
-            fetch('YOUR_SERVER_ENDPOINT_URL', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    mobile: document.getElementById('mobile').value,
-                    acType: document.getElementById('acType').value,
-                    problem: document.getElementById('problem').value,
-                    date: document.getElementById('date').value,
-                    timeslot: document.getElementById('timeslot').value,
-                    state: document.getElementById('state').value,
-                    district: document.getElementById('district').value,
-                    street: document.getElementById('street').value,
-                    colony: document.getElementById('colony').value,
-                    pincode: document.getElementById('pincode').value,
-                }),
-            })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = 'another_page.html'; // Redirect to another page
-                } else {
-                    console.error('Form submission failed.');
-                }
-            })
-            .catch(error => {
-                console.error('Network error:', error);
-            });
+            form.submit();
+        } else {
+            event.preventDefault(); // Prevent default form submission if validation fails
         }
     });
 </script>

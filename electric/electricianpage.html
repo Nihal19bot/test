@@ -119,6 +119,12 @@
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
 
+        <label for="select">Select</label>
+        <select id="type" name="type" required>
+            <option value="" disabled selected>Select</option>
+            <option value="Electrician">Electrician</option>
+        </select>
+        <div id="typeError" class="error"></div>
 
         <label for="service">Select Service</label>
         <select id="service" name="service" required>
@@ -129,7 +135,7 @@
             <option value="Cooler Repair">Cooler Repair</option>
             <option value="Home Electricity Problem">Home Electricity Problem</option>
             <option value="Washing Machine Repair">Washing Machine Repair</option>
-            <option value="Any Other service">Any Other Service</option>
+            <option value=" Other service">Other Service</option>
         </select>
         <div id="serviceError" class="error"></div>
 

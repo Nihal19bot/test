@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Booking Form</title>
+    <title>engineer Booking Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -103,9 +103,10 @@
 </div>
 
 <div class="container">
-    <h2>Service Booking Form</h2>
-    <h3>Sound System Repair</h3>
-    <form id="bookingForm" action="sound.php" method="post">
+    <h2>Registration Form</h2>
+
+    <form id="bookingForm" action="engineer.php" method="post">
+
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required>
         <div id="nameError" class="error"></div>
@@ -118,30 +119,19 @@
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
 
-        <label for="select">Select</label>
-        <select id="type" name="type" required>
+        <label for="engineer">engineer</label>
+        <select id="engineer" name="engineer" required>
             <option value="" disabled selected>Select</option>
-            <option value="Sound">Sound</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Plumber">Plumber</option>
+            <option value="Carpenter">Carpenter</option>
+            <option value="Cleaner">Cleaner</option>
+            <option value="Car Booking Provider">Car Booking Provider</option>
+            <option value="AC Technician">AC Technician</option>
+            <option value="Sound System Technician">Sound System Technician</option>
+            <option value="Other">Other</option>
         </select>
-        <div id="typeError" class="error"></div>
-
-        <label for="service">Select Service</label>
-        <select id="service" name="service" required>
-            <option value="" disabled selected>Select</option>
-            <option value="Repair">Repair</option>
-            <option value="Other service">Other Service</option>
-        </select>
-        <div id="serviceError" class="error"></div>
-
-        <label for="date">Preferred Date</label>
-        <input type="date" id="date" name="date" required onchange="updateTimeSlots()">
-        <div id="dateError" class="error"></div>
-
-        <label for="timeslot">Preferred Time Slot</label>
-        <select id="timeslot" name="timeslot" required>
-            <option value="" disabled selected>Select</option>
-        </select>
-        <div id="timeslotError" class="error"></div>
+        <div id="engineerError" class="error"></div>
 
         <h3>Address</h3>
         <label for="state">State</label>
@@ -180,52 +170,6 @@
         } else {
             sidebar.style.width = "250px";
         }
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const dateInput = document.getElementById('date');
-        const now = new Date();
-        const today = now.toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
-        dateInput.addEventListener('change', updateTimeSlots);
-        updateTimeSlots();
-    });
-
-    function updateTimeSlots() {
-        const timeslotSelect = document.getElementById('timeslot');
-        timeslotSelect.innerHTML = '<option value="" disabled selected>Select</option>';
-
-        const now = new Date();
-        const selectedDate = new Date(document.getElementById('date').value);
-        selectedDate.setHours(0, 0, 0, 0);
-
-        const isToday = selectedDate.getTime() === now.setHours(0, 0, 0, 0);
-        const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-
-        const timeSlots = [
-            "12:00-02:00am", "02:00-04:00am", "04:00-06:00am", "06:00-08:00am",
-            "08:00-10:00am", "10:00-12:00pm", "12:00-02:00pm", "02:00-04:00pm",
-            "04:00-06:00pm", "06:00-08:00pm", "08:00-10:00pm", "10:00-12:00am"
-        ];
-
-        timeSlots.forEach(slot => {
-            const [startStr, endStr] = slot.split('-');
-            const start = parseTime(startStr);
-
-            if (!isToday || start >= twoHoursLater) {
-                const option = document.createElement('option');
-                option.value = slot;
-                option.text = slot;
-                timeslotSelect.appendChild(option);
-            }
-        });
-    }
-
-    function parseTime(timeStr) {
-        let [hours, minutes] = timeStr.split(':').map(Number);
-        if (timeStr.includes('pm') && hours < 12) hours += 12;
-        if (timeStr.includes('am') && hours === 12) hours = 0;
-        return new Date().setHours(hours, minutes, 0, 0);
     }
 
     function detectLocation() {
@@ -267,9 +211,9 @@
                         break;
                 }
             }, {
-                enableHighAccuracy: true, // Request high accuracy
-                timeout: 10000, // 10 seconds timeout
-                maximumAge: 0 // Do not use cached location
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
             });
         } else {
             document.getElementById('autoLocationError').textContent = "Geolocation is not supported by this browser.";
@@ -277,6 +221,9 @@
     }
 
     document.getElementById('bookingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let form = document.getElementById('bookingForm');
         let valid = true;
 
         // Clear previous error messages
@@ -314,8 +261,8 @@
             document.getElementById('pincodeError').textContent = 'Please enter a valid 6-digit pincode.';
         }
 
-        if (!valid) {
-            event.preventDefault(); // Prevent form submission if validation fails
+        if (valid) {
+            form.submit();
         }
     });
 </script>

@@ -105,7 +105,7 @@
 <div class="container">
     <h2>Service Booking Form</h2>
     <h3>Plumber</h3>
-    <form id="bookingForm">
+    <form id="bookingForm" action="plumber.php" method="post">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required>
         <div id="nameError" class="error"></div>
@@ -118,20 +118,26 @@
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
 
+        <label for="select">Select</label>
+        <select id="type" name="type" required>
+            <option value="" disabled selected>Select</option>
+            <option value="Plumber">Plumber</option>
+        </select>
+        <div id="typeError" class="error"></div>
 
         <label for="service">Select Service</label>
         <select id="service" name="service" required>
             <option value="" disabled selected>Select</option>
             <option value="Tap Repair">Tap Repair</option>
-            <option value="Tap Repair">Leakage Problem</option>
-            <option value="Tap Repair">Drainage Problem</option>
+            <option value="Leakage Problem">Leakage Problem</option>
+            <option value="Drainage Problem">Drainage Problem</option>
             <option value="Water Fitting">Water Fitting</option>
-            <option value="Any Other service">Any Other Service</option>
+            <option value="Any Other Service">Any Other Service</option>
         </select>
         <div id="serviceError" class="error"></div>
 
         <label for="date">Preferred Date</label>
-        <input type="date" id="date" name="date" required onchange="updateTimeSlots()">
+        <input type="date" id="date" name="date" required>
         <div id="dateError" class="error"></div>
 
         <label for="timeslot">Preferred Time Slot</label>
@@ -274,9 +280,6 @@
     }
 
     document.getElementById('bookingForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        let form = document.getElementById('bookingForm');
         let valid = true;
 
         // Clear previous error messages
@@ -315,37 +318,10 @@
         }
 
         if (valid) {
-            // Assuming form submission via fetch
-            fetch('YOUR_SERVER_ENDPOINT_URL', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    mobile: document.getElementById('mobile').value,
-                    acType: document.getElementById('acType').value,
-                    service: document.getElementById('service').value,
-                    date: document.getElementById('date').value,
-                    timeslot: document.getElementById('timeslot').value,
-                    state: document.getElementById('state').value,
-                    district: document.getElementById('district').value,
-                    street: document.getElementById('street').value,
-                    colony: document.getElementById('colony').value,
-                    pincode: document.getElementById('pincode').value,
-                }),
-            })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = 'another_page.html'; // Redirect to another page
-                } else {
-                    console.error('Form submission failed.');
-                }
-            })
-            .catch(error => {
-                console.error('Network error:', error);
-            });
+            // Let the form be submitted
+            document.getElementById('bookingForm').submit();
+        } else {
+            event.preventDefault(); // Prevent default form submission
         }
     });
 </script>

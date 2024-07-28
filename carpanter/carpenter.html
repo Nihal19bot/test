@@ -104,8 +104,9 @@
 
 <div class="container">
     <h2>Service Booking Form</h2>
-    <h3>Electrician</h3>
-    <form id="bookingForm">
+    <h3>Carpanter</h3>
+    <form id="bookingForm" action="carpanter.php" method="post">
+
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required>
         <div id="nameError" class="error"></div>
@@ -118,12 +119,18 @@
         <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="1234567890">
         <div id="mobileError" class="error"></div>
 
+        <label for="select">Select</label>
+        <select id="type" name="type" required>
+            <option value="" disabled selected>Select</option>
+            <option value="Carpanter">Carpanter</option>
+        </select>
+        <div id="typeError" class="error"></div>
 
         <label for="service">Select Service</label>
         <select id="service" name="service" required>
             <option value="" disabled selected>Select</option>
-            <option value="Repair Something">Repair Something</option>
-            <option value="Order For Making ">Order For Making </option>
+            <option value="Repair">Repair</option>
+            <option value="Order For Making">Order For Making</option>
             <option value="Other service">Other Service</option>
         </select>
         <div id="serviceError" class="error"></div>
@@ -272,8 +279,6 @@
     }
 
     document.getElementById('bookingForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
-
         let form = document.getElementById('bookingForm');
         let valid = true;
 
@@ -313,37 +318,9 @@
         }
 
         if (valid) {
-            // Assuming form submission via fetch
-            fetch('YOUR_SERVER_ENDPOINT_URL', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    mobile: document.getElementById('mobile').value,
-                    acType: document.getElementById('acType').value,
-                    service: document.getElementById('service').value,
-                    date: document.getElementById('date').value,
-                    timeslot: document.getElementById('timeslot').value,
-                    state: document.getElementById('state').value,
-                    district: document.getElementById('district').value,
-                    street: document.getElementById('street').value,
-                    colony: document.getElementById('colony').value,
-                    pincode: document.getElementById('pincode').value,
-                }),
-            })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = 'another_page.html'; // Redirect to another page
-                } else {
-                    console.error('Form submission failed.');
-                }
-            })
-            .catch(error => {
-                console.error('Network error:', error);
-            });
+            form.submit();
+        } else {
+            event.preventDefault(); // Prevent default form submission if validation fails
         }
     });
 </script>
